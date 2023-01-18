@@ -14,7 +14,7 @@ to run:
 
 
 // required imports
-const { Client, GatewayIntentBits, EmbedBuilder, PermissionsBitField, Permissions } = require('discord.js');
+const { Client, GatewayIntentBits, EmbedBuilder, PermissionsBitField, Permissions, ActivityType } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 require('dotenv').config();
 
@@ -63,9 +63,8 @@ client.on('ready', () => {
 
     // command to list server member count (including bot)
     command(client, 'membercount', (message) => {
-        client.guilds.cache.forEach((guild) => {
-            message.channel.send(`${guild.name} has ${guild.memberCount} members`);
-        });
+        const guild = client.guilds.cache.get('1019794386625773721');
+        message.channel.send(`${guild.name} has ${guild.memberCount} members`);
     });
 
     // jeffery dog ...
@@ -98,16 +97,14 @@ you’re life = done`);
         const { member } = message;
         const tag = `<@${member.id}>`;
         if (message.member.permissions.has('ADMINISTRATOR')) {
-            // access the text after !status 
+            // access the text after !botstatus 
             const content = message.content.replace('!botstatus ', '');
             if (content != '!botstatus') {
                 client.user.setPresence({
-                    activity: {
-                        name: content,
-                        type: 0,
-                    },
-                })
-                message.channel.send('bot status updated');
+                    activities: [{ name: content }],
+                    status: 'dnd',
+                });
+                message.channel.send(`bot status updated to ${content}`);
             } else {
                 message.channel.send(`${tag} usage: !botstatus {status}`);
             }
