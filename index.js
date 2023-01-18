@@ -9,7 +9,7 @@
         prefix = "!" 
     
 to run:
-    1) type: nodemon index.js in root folder
+    type: nodemon index.js in root folder
 */
 
 
